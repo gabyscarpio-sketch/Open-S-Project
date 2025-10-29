@@ -5,7 +5,17 @@ A comprehensive medical AI assistant application with a FastAPI backend and Next
 ## Features
 
 - **AI-Powered Chat**: Intelligent medical assistant using OpenAI GPT-5
+  - Typing indicator with animated dots
+  - Streaming text effect for natural conversation
+  - Copy-to-clipboard for assistant responses
+- **Smart Patient Search**: Instant search with debouncing and friendly empty states
+- **Medical History Timeline**: Visual timeline with color-coded icons
+  - Red for cardiology
+  - Blue for prescriptions
+  - Purple for lab results
+  - Collapsible descriptions
 - **Patient Cards**: Display patient information with age and last visit
+- **Toast Notifications**: Real-time feedback for user actions
 - **Medical Records Integration**: Supabase integration for patient history
 - **Professional UI**: Medical-themed design with Tailwind CSS
 

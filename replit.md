@@ -13,6 +13,15 @@ A comprehensive medical AI assistant application that helps healthcare providers
 - ✅ Built chat interface with real-time messaging
 - ✅ Added PatientCard component for patient information display
 - ✅ Configured workflows for both backend (port 8000) and frontend (port 5000)
+- ✅ **NEW UX Enhancements:**
+  - Intelligent patient search with 300ms debounce and friendly empty states
+  - Typing indicator with animated dots while AI responds
+  - Streaming text effect (word-by-word) for natural conversation flow
+  - Copy-to-clipboard button on hover for assistant messages
+  - Toast notifications for user feedback (success/error/info)
+  - Medical history timeline with color-coded icons
+  - Collapsible descriptions for long medical records
+  - Improved loading states and form feedback
 
 ## Project Architecture
 
@@ -44,6 +53,15 @@ A comprehensive medical AI assistant application that helps healthcare providers
 - API integration with backend via fetch
 - Professional medical UI with indigo color scheme
 - Example patient cards with name, age, and last visit date
+- **Advanced UX Features**:
+  - Smart patient search with debouncing
+  - Typing indicator for chat responses
+  - Streaming text animation for AI replies
+  - One-click copy for assistant messages
+  - Toast notifications system
+  - Interactive medical history timeline
+  - Color-coded event types (cardiology, prescriptions, labs)
+  - Collapsible long descriptions
 
 ## Environment Variables
 
