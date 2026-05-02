@@ -1,0 +1,32 @@
+---
+const currentPath = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-50 w-full bg-white border-b border-slate-100">
+  <div class="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
+    <a href="/" class="flex items-center gap-2">
+      <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-600 to-blue-600 flex items-center justify-center">
+        <span class="text-white font-extrabold text-sm">O</span>
+      </div>
+      <span class="text-lg font-bold text-slate-900">OpenS</span>
+    </a>
+
+    <nav class="hidden md:flex items-center gap-6">
+      <a href="/" class:list={['text-sm font-medium transition-colors', currentPath === '/' ? 'text-indigo-600' : 'text-slate-500 hover:text-slate-900']}>Inicio</a>
+      <a href="/auth" class="text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-lg transition-colors">Iniciar sesión</a>
+    </nav>
+
+    <button id="mobile-toggle" class="md:hidden p-2 text-slate-500" aria-label="Menu">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+  </div>
+  <div id="mobile-menu" class="hidden md:hidden border-t border-slate-50 bg-white px-4 pb-3">
+    <nav class="flex flex-col gap-1 pt-2">
+      <a href="/" class="px-3 py-2 rounded text-sm text-slate-600 hover:bg-slate-50">Inicio</a>
+      <a href="/auth" class="px-3 py-2 rounded text-sm text-white bg-indigo-600 text-center mt-1">Iniciar sesión</a>
+    </nav>
+  </div>
+</header>
+<script>
+  document.getElementById('mobile-toggle')?.addEventListener('click', () => document.getElementById('mobile-menu')?.classList.toggle('hidden'));
+</script>

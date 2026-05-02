@@ -1,0 +1,127 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+---
+
+<BaseLayout title="OpenS — Tu salud, siempre accesible">
+  <Navbar />
+
+  <!-- Hero with subtle gradient background -->
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-indigo-50/80 via-white to-white"></div>
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-indigo-100/40 rounded-full blur-[120px] -translate-y-1/2"></div>
+
+    <div class="relative max-w-4xl mx-auto px-4 pt-28 pb-24 text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 mb-8">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span class="text-xs font-medium text-indigo-600">Sistema activo</span>
+      </div>
+
+      <h1 class="text-5xl md:text-7xl font-extrabold text-slate-900 tracking-tight leading-[1.1]">
+        Tu salud,<br/>siempre accesible.
+      </h1>
+
+      <p class="mt-6 text-lg text-slate-500 max-w-lg mx-auto leading-relaxed">
+        Consulta tu historial, comunícate con tu especialista y accede a tus resultados desde cualquier lugar.
+      </p>
+
+      <div class="mt-10 flex flex-col sm:flex-row gap-3 justify-center">
+        <a href="/auth" class="group px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl text-base font-semibold transition-all shadow-lg shadow-indigo-200/50 hover:shadow-xl hover:shadow-indigo-300/50 hover:-translate-y-0.5 inline-flex items-center justify-center gap-2">
+          Solicitar cita
+          <svg class="w-4 h-4 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </a>
+        <a href="/auth" class="px-8 py-4 bg-white text-slate-700 border border-slate-200 rounded-2xl text-base font-semibold transition-all hover:border-indigo-200 hover:text-indigo-600 hover:-translate-y-0.5">
+          Iniciar sesión
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature cards with visual depth -->
+  <section class="max-w-5xl mx-auto px-4 py-20">
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="group p-7 rounded-2xl bg-white border border-slate-100 hover:border-indigo-100 hover:shadow-xl hover:shadow-indigo-50 transition-all duration-300">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center mb-5 shadow-lg shadow-indigo-200/50 group-hover:scale-105 transition-transform">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+        </div>
+        <h3 class="text-lg font-bold text-slate-900 mb-2">Historial unificado</h3>
+        <p class="text-sm text-slate-500 leading-relaxed">Resultados de laboratorio, prescripciones y consultas reunidos en un solo lugar seguro.</p>
+      </div>
+
+      <div class="group p-7 rounded-2xl bg-white border border-slate-100 hover:border-blue-100 hover:shadow-xl hover:shadow-blue-50 transition-all duration-300">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center mb-5 shadow-lg shadow-blue-200/50 group-hover:scale-105 transition-transform">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+        </div>
+        <h3 class="text-lg font-bold text-slate-900 mb-2">Asistente inteligente</h3>
+        <p class="text-sm text-slate-500 leading-relaxed">Respuestas sobre tu salud basadas en tu historial real, con IA que funciona incluso sin conexión.</p>
+      </div>
+
+      <div class="group p-7 rounded-2xl bg-white border border-slate-100 hover:border-emerald-100 hover:shadow-xl hover:shadow-emerald-50 transition-all duration-300">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center mb-5 shadow-lg shadow-emerald-200/50 group-hover:scale-105 transition-transform">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+        </div>
+        <h3 class="text-lg font-bold text-slate-900 mb-2">Privacidad total</h3>
+        <p class="text-sm text-slate-500 leading-relaxed">Tus datos nunca salen de la clínica. Procesamiento local disponible para máxima confidencialidad.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="bg-slate-50 border-y border-slate-100">
+    <div class="max-w-4xl mx-auto px-4 py-20">
+      <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 text-center mb-14">Cómo funciona</h2>
+      <div class="grid md:grid-cols-3 gap-10 text-center">
+        <div>
+          <div class="w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center mx-auto mb-4 text-sm font-bold">1</div>
+          <h3 class="font-bold text-slate-900 mb-1">Inicia sesión</h3>
+          <p class="text-sm text-slate-500">Accede con tu correo y el rol asignado por tu clínica.</p>
+        </div>
+        <div>
+          <div class="w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center mx-auto mb-4 text-sm font-bold">2</div>
+          <h3 class="font-bold text-slate-900 mb-1">Consulta tu historial</h3>
+          <p class="text-sm text-slate-500">Accede a tus registros clínicos, resultados y prescripciones.</p>
+        </div>
+        <div>
+          <div class="w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center mx-auto mb-4 text-sm font-bold">3</div>
+          <h3 class="font-bold text-slate-900 mb-1">Habla con el asistente</h3>
+          <p class="text-sm text-slate-500">La IA analiza tu historial y responde preguntas sobre tu salud.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust -->
+  <section class="max-w-3xl mx-auto px-4 py-20 text-center">
+    <p class="text-xs text-slate-400 uppercase tracking-[0.2em] font-semibold mb-4">Tecnología</p>
+    <p class="text-xl md:text-2xl font-semibold text-slate-700 leading-relaxed">
+      IA híbrida que se adapta a las condiciones de red del centro médico, garantizando atención <span class="text-indigo-600">ininterrumpida</span>.
+    </p>
+    <div class="mt-10 flex justify-center gap-8 text-slate-400">
+      <div class="text-center">
+        <p class="text-2xl font-extrabold text-slate-700">2</p>
+        <p class="text-xs mt-1">Motores IA</p>
+      </div>
+      <div class="w-px bg-slate-200"></div>
+      <div class="text-center">
+        <p class="text-2xl font-extrabold text-slate-700">0ms</p>
+        <p class="text-xs mt-1">Downtime</p>
+      </div>
+      <div class="w-px bg-slate-200"></div>
+      <div class="text-center">
+        <p class="text-2xl font-extrabold text-slate-700">PWA</p>
+        <p class="text-xs mt-1">Offline</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="py-8 border-t border-slate-100">
+    <div class="max-w-5xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+      <span>© 2025 OpenS — Resilience Edition</span>
+      <div class="flex gap-4">
+        <a href="#" class="hover:text-slate-600 transition-colors">Privacidad</a>
+        <a href="#" class="hover:text-slate-600 transition-colors">Términos</a>
+        <a href="#" class="hover:text-slate-600 transition-colors">Contacto</a>
+      </div>
+    </div>
+  </footer>
+</BaseLayout>

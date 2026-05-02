@@ -1,0 +1,110 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+---
+
+<BaseLayout title="Portal del Paciente - OpenS">
+  <Navbar />
+  <main class="max-w-4xl mx-auto px-4 py-10">
+    <!-- Patient profile loaded from Supabase -->
+    <div id="patient-profile" class="text-center mb-10">
+      <div class="w-20 h-20 rounded-full bg-gradient-to-br from-indigo-500 to-blue-500 flex items-center justify-center mx-auto mb-4 shadow-xl shadow-indigo-200">
+        <span id="profile-initials" class="text-white text-3xl font-extrabold">—</span>
+      </div>
+      <h1 id="profile-name" class="text-3xl font-extrabold text-slate-900">Cargando...</h1>
+      <p id="profile-sub" class="text-slate-500 mt-1"></p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6 mb-8">
+      <div class="p-6 rounded-2xl border border-slate-200 bg-white">
+        <h2 class="font-bold text-slate-800 mb-4">Datos del Paciente</h2>
+        <div id="profile-details" class="space-y-3 text-sm">
+          <p class="text-slate-400">Cargando datos desde Supabase...</p>
+        </div>
+      </div>
+
+      <div class="p-6 rounded-2xl border border-slate-200 bg-white text-center flex flex-col items-center justify-center">
+        <h2 class="font-bold text-slate-800 mb-4">Código QR</h2>
+        <div class="w-40 h-40 bg-slate-100 rounded-2xl border-2 border-dashed border-slate-300 flex items-center justify-center">
+          <span class="text-slate-400 text-xs">Portabilidad de datos</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timeline from Supabase -->
+    <div class="p-6 rounded-2xl border border-slate-200 bg-white">
+      <h2 class="font-bold text-slate-800 mb-6">Historial Médico</h2>
+      <div id="patient-records" class="relative pl-8 space-y-6 before:absolute before:left-3 before:top-2 before:bottom-2 before:w-0.5 before:bg-indigo-200">
+        <p class="text-sm text-slate-400 text-center py-4 pl-0">Cargando registros...</p>
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<script>
+  const API = '/api/v1';
+
+  async function apiFetch(path: string) {
+    try { const r = await fetch(path); if (r.ok) return await r.json(); } catch {}
+    try { const r = await fetch(`http://localhost:8001${path}`); if (r.ok) return await r.json(); } catch {}
+    return null;
+  }
+
+  function initials(name: string) {
+    return name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+  }
+
+  // Load first patient from Supabase
+  (async () => {
+    const data = await apiFetch(`${API}/patients`);
+    const patients = data?.patients || [];
+
+    if (patients.length === 0) {
+      document.getElementById('profile-name')!.textContent = 'Sin pacientes';
+      document.getElementById('profile-sub')!.textContent = 'No hay pacientes registrados en Supabase';
+      document.getElementById('profile-details')!.innerHTML = '<p class="text-slate-400">Configure la base de datos Supabase.</p>';
+      document.getElementById('patient-records')!.innerHTML = '<p class="text-sm text-slate-400 text-center py-4 pl-0">Sin registros.</p>';
+      return;
+    }
+
+    const p = patients[0];
+    const name = p.name || 'Sin nombre';
+    document.getElementById('profile-initials')!.textContent = initials(name);
+    document.getElementById('profile-name')!.textContent = name;
+    document.getElementById('profile-sub')!.textContent = `ID: ${p.id}`;
+
+    const details: string[] = [];
+    if (p.email) details.push(`<div class="flex justify-between"><span class="text-slate-500">Email</span><span class="font-medium">${p.email}</span></div>`);
+    if (p.phone) details.push(`<div class="flex justify-between"><span class="text-slate-500">Teléfono</span><span class="font-medium">${p.phone}</span></div>`);
+    details.push(`<div class="flex justify-between"><span class="text-slate-500">ID</span><span class="font-medium">${p.id}</span></div>`);
+    document.getElementById('profile-details')!.innerHTML = details.join('');
+
+    // Load records
+    const recData = await apiFetch(`${API}/patients/${p.id}/records`);
+    const records = recData?.records || [];
+    const container = document.getElementById('patient-records')!;
+    if (records.length === 0) {
+      container.innerHTML = '<p class="text-sm text-slate-400 text-center py-4 pl-0">Sin registros médicos.</p>';
+      return;
+    }
+    const icons: Record<string, {emoji: string; bg: string}> = {
+      cardiology: {emoji: '❤', bg: 'bg-red-100'},
+      lab: {emoji: '🧪', bg: 'bg-purple-100'},
+      prescription: {emoji: '💊', bg: 'bg-blue-100'},
+    };
+    container.innerHTML = records.map((r: any) => {
+      const type = r.type || 'general';
+      const {emoji, bg} = icons[type] || {emoji: '📋', bg: 'bg-slate-100'};
+      const date = r.date || r.created_at || '';
+      const dateStr = date ? new Date(date).toLocaleDateString('es', {year: 'numeric', month: 'short', day: 'numeric'}) : '';
+      return `<div class="relative animate-fade-in">
+        <div class="absolute -left-8 w-6 h-6 rounded-full ${bg} flex items-center justify-center border-2 border-white shadow"><span class="text-xs">${emoji}</span></div>
+        <div class="bg-slate-50 rounded-xl p-4">
+          <p class="text-xs font-semibold text-indigo-600 mb-1">${dateStr}</p>
+          <h3 class="font-bold text-slate-800">${r.description || 'Registro'}</h3>
+          ${r.diagnosis ? `<p class="text-sm text-slate-600 mt-1">${r.diagnosis}</p>` : ''}
+        </div>
+      </div>`;
+    }).join('');
+  })();
+</script>
