@@ -1,0 +1,23 @@
+---
+import PageLayout from '../layout/PageLayout.astro';
+import PublicRoute from '../layout/PublicRoute.astro';
+---
+
+<PageLayout title="Inicio">
+  <PublicRoute>
+    <main class="flex flex-col items-center justify-center p-4 gap-6 min-h-[calc(100vh-5rem)]">
+      <h1 class="text-5xl font-bold">Bienvenido a la demo del último módulo de EdTécnica</h1>
+      <p class="text-lg text-gray-700 dark:text-gray-300 max-w-2xl text-center">
+        En esta clase usamos <strong>Astro</strong> en el cliente y <strong>Express</strong> en el backend.
+        Puedes registrarte, iniciar sesión y gestionar tus contactos: crear, ver, editar y eliminar.
+      </p>
+      <p class="text-lg text-gray-700 dark:text-gray-300 max-w-2xl text-center">
+        Se aplican todos los principios de full-stack: rutas, validación, autenticación,
+        persistencia y buenas prácticas.
+      </p>
+      <p class="text-lg text-gray-700 dark:text-gray-300 max-w-2xl text-center">
+        ¡Ponte creativo — explora la app, prueba las funciones y aprende construyendo!
+      </p>
+    </main>
+  </PublicRoute>
+</PageLayout>

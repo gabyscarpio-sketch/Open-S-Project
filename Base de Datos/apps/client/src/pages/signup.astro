@@ -1,0 +1,173 @@
+---
+import Button from '../components/Button.astro';
+import Spinner from '../components/Spinner.astro';
+import PageLayout from '../layout/PageLayout.astro';
+import PublicRoute from '../layout/PublicRoute.astro';
+---
+
+<PageLayout title="Registro">
+  <PublicRoute>
+    <div class="flex items-center justify-center min-h-screen">
+      <form
+        id="signup-form"
+        class="p-8 rounded-lg border border-gray-300 dark:border-gray-600 w-full max-w-sm flex flex-col gap-6"
+      >
+        <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 text-center">Registro</h2>
+
+        <div class="relative flex flex-col gap-1">
+          <label for="email" class="text-sm font-medium text-gray-700 dark:text-gray-300"
+            >Correo</label
+          >
+          <div class="relative">
+            <input
+              type="email"
+              id="email"
+              class="w-full border border-gray-300 dark:border-gray-600 rounded-md py-2 pl-3 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors placeholder-gray-400 dark:placeholder-gray-400"
+              placeholder="tu@correo.com"
+            />
+            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+              <ion-icon
+                id="email-check"
+                name="checkmark-circle"
+                class="text-green-500 text-xl hidden"></ion-icon>
+              <ion-icon id="email-cross" name="close-circle" class="text-red-500 text-xl hidden"
+              ></ion-icon>
+            </div>
+          </div>
+        </div>
+
+        <div class="relative flex flex-col gap-1">
+          <label for="password" class="text-sm font-medium text-gray-700 dark:text-gray-300"
+            >Contraseña</label
+          >
+          <div class="relative">
+            <input
+              type="password"
+              id="password"
+              class="w-full border border-gray-300 dark:border-gray-600 rounded-md py-2 pl-3 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors placeholder-gray-400 dark:placeholder-gray-400"
+              placeholder="••••••••"
+            />
+            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+              <ion-icon
+                id="password-check"
+                name="checkmark-circle"
+                class="text-green-500 text-xl hidden"></ion-icon>
+              <ion-icon id="password-cross" name="close-circle" class="text-red-500 text-xl hidden"
+              ></ion-icon>
+            </div>
+          </div>
+          <p class="text-xs text-gray-500 dark:text-gray-400">
+            Min 8 caracteres, 1 letra, 1 numero, 1 caracter especial.
+          </p>
+        </div>
+
+        <button
+          type="submit"
+          class="flex justify-center items-center gap-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition-colors cursor-pointer"
+        >
+          Crear
+          <div id="spinner" role="status" class="hidden">
+            <Spinner color="fill-blue-800" />
+          </div>
+        </button>
+      </form>
+    </div>
+  </PublicRoute>
+</PageLayout>
+
+<script>
+  // Validation Regex Variables
+  import { z } from 'astro/zod';
+  import ky, { HTTPError } from 'ky';
+  import { showToast } from '../components/notification/notification';
+
+  const formUserSchema = z.object({
+    email: z.email({ error: 'Tiene que ser un email valido' }),
+    password: z.string().regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\S]{8,}$/, {
+      error: 'Recuerda cumplir los requerimientos de la contraseña',
+    }),
+  });
+
+  // DOM Elements
+  const form = document.querySelector('#signup-form');
+  const emailInput = document.querySelector('#email');
+  const passwordInput = document.querySelector('#password');
+  const spinner = document.querySelector('#spinner');
+
+  // Reusable validation function
+  function validateField(inputElement, success) {
+    const nextDiv = inputElement.nextElementSibling;
+    const checkIcon = nextDiv.children[0];
+    const crossIcon = nextDiv.children[1];
+    const value = inputElement.value;
+
+    if (value.length === 0) {
+      checkIcon.classList.add('hidden');
+      crossIcon.classList.add('hidden');
+      return;
+    }
+
+    if (success) {
+      checkIcon.classList.remove('hidden');
+      crossIcon.classList.add('hidden');
+    } else {
+      checkIcon.classList.add('hidden');
+      crossIcon.classList.remove('hidden');
+    }
+  }
+
+  emailInput.addEventListener('input', () => {
+    const { success } = formUserSchema.pick({ email: true }).safeParse({ email: emailInput.value });
+    validateField(emailInput, success);
+  });
+
+  passwordInput.addEventListener('input', () => {
+    const { success } = formUserSchema
+      .pick({ password: true })
+      .safeParse({ password: passwordInput.value });
+    console.log(success);
+
+    validateField(passwordInput, success);
+  });
+
+  // Submit Placeholder
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    // Check if both fields are valid before proceeding
+    const { success, error } = formUserSchema.safeParse({
+      email: emailInput.value,
+      password: passwordInput.value,
+    });
+    const fieldErrors = error?.flatten().fieldErrors;
+
+    if (success) {
+      console.log('Form is valid! Ready to submit.');
+      const payload = {
+        email: emailInput.value,
+        password: passwordInput.value,
+      };
+      try {
+        spinner?.classList.remove('hidden');
+        const response = await ky.post('/api/user', { json: payload }).json();
+        showToast({
+          type: 'success',
+          text: `Usuario creado con éxito! Se ha enviado un correo de verificación a ${response.email}`,
+        });
+      } catch (error) {
+        if (error instanceof HTTPError) {
+          const errorText = error.data.error;
+          showToast({
+            type: 'error',
+            text: errorText,
+          });
+        }
+      } finally {
+        spinner?.classList.add('hidden');
+      }
+    } else {
+      validateField(emailInput, !fieldErrors?.email);
+      validateField(passwordInput, !fieldErrors?.email);
+    }
+  });
+</script>

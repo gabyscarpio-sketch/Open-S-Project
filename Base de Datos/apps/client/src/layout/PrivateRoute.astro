@@ -1,0 +1,32 @@
+---
+import Navbar from '../components/navigation/Navbar.astro';
+import Notification from '../components/notification/notification.astro';
+import Spinner from '../components/Spinner.astro';
+---
+
+<>
+  <div id="spinner-container" class="h-screen flex justify-center items-center">
+    <Spinner color="fill-blue-500 dark:fill-blue-900" />
+  </div>
+  <div id="content-container" class="hidden">
+    <Navbar />
+    <slot />
+  </div>
+</>
+
+<script>
+  import authService from '../features/auth/auth.service';
+  const spinnerContainer = document.querySelector('#spinner-container');
+  const contentContainer = document.querySelector('#content-container');
+
+  (async () => {
+    try {
+      await authService.getLoggedUser();
+      contentContainer?.classList.remove('hidden');
+    } catch (error) {
+      location.replace('/login');
+    } finally {
+      spinnerContainer?.remove();
+    }
+  })();
+</script>

@@ -1,0 +1,17 @@
+{
+  "name": "contactos-fullstack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run start -w api",
+    "client:dev": "npm run dev -w client",
+    "api:dev": "npm run dev -w api",
+    "build:client": "rm -rf ./apps/client/dist && rm -rf ./apps/api/dist && npm run build -w client && cp -r ./apps/client/dist ./apps/api/"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "workspaces": ["apps/*"]
+}

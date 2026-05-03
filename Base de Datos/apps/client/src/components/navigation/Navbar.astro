@@ -1,0 +1,165 @@
+<header
+  class="sticky top-0 z-50 w-full border-b border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900 transition-colors duration-300"
+>
+  <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center gap-2">
+      <a href="/" class="flex items-center gap-2">
+        <span class="text-xl font-bold text-gray-900 dark:text-white">ContactApp</span>
+      </a>
+    </div>
+
+    <div class="flex gap-8">
+      <nav id="action-container" class="hidden md:flex items-center gap-8"></nav>
+      <div class="flex items-center gap-4">
+        <button
+          id="theme-toggle"
+          type="button"
+          class="rounded-lg p-2.5 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-800 dark:focus:ring-gray-700 transition-colors"
+        >
+          <svg
+            id="theme-toggle-light-icon"
+            class="hidden h-5 w-5"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+            ><path
+              d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4.22 3.22a1 1 0 011.415 0l.708.708a1 1 0 01-1.414 1.414l-.708-.708a1 1 0 010-1.414zM16 10a1 1 0 011 1h1a1 1 0 110-2h-1a1 1 0 01-1 1zm-3.22 4.22a1 1 0 010 1.415l-.708.708a1 1 0 01-1.414-1.414l.708-.708a1 1 0 011.415 0zM10 16a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zm-4.22-3.22a1 1 0 01-1.415 0l-.708-.708a1 1 0 011.414-1.414l.708.708a1 1 0 010 1.414zM4 10a1 1 0 01-1-1H2a1 1 0 110 2h1a1 1 0 011-1zm3.22-4.22a1 1 0 010-1.415l.708-.708a1 1 0 011.414 1.414l-.708.708a1 1 0 01-1.415 0z"
+            ></path><path d="M10 6a4 4 0 100 8 4 4 0 000-8z" fill-rule="evenodd" clip-rule="evenodd"
+            ></path></svg
+          >
+          <svg
+            id="theme-toggle-dark-icon"
+            class="hidden h-5 w-5"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+            ><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"
+            ></path></svg
+          >
+        </button>
+        <button
+          id="mobile-menu-open"
+          class="md:hidden rounded-lg p-2 text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-800 dark:focus:ring-gray-700"
+        >
+          <svg
+            class="h-6 w-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+            ><path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"></path></svg
+          >
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div id="mobile-sidebar-container" class="fixed inset-0 z-50 hidden">
+  <div
+    id="mobile-sidebar-backdrop"
+    class="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity opacity-0"
+  >
+  </div>
+  <aside
+    id="mobile-sidebar"
+    class="fixed right-0 top-0 h-full w-64 translate-x-full transform bg-white dark:bg-gray-900 p-6 shadow-xl transition-transform duration-300 ease-in-out border-l border-gray-200 dark:border-gray-800"
+  >
+    <div class="flex items-center justify-between mb-8">
+      <span class="text-xl font-bold text-gray-900 dark:text-white">Menu</span>
+      <button
+        id="mobile-menu-close"
+        class="rounded-lg p-2 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800 transition-colors"
+      >
+        <svg
+          class="h-6 w-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+          ><path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"></path></svg
+        >
+      </button>
+    </div>
+    <nav class="flex flex-col gap-4"></nav>
+  </aside>
+</div>
+
+<script>
+  import { getButtons, getLinks } from './utils';
+
+  const sidebarContainer = document.querySelector('#mobile-sidebar-container');
+  const sidebar = document.querySelector('#mobile-sidebar');
+  const backdrop = document.querySelector('#mobile-sidebar-backdrop');
+  const openBtn = document.querySelector('#mobile-menu-open');
+  const closeBtn = document.querySelector('#mobile-menu-close');
+
+  const buttons = getButtons(location.pathname);
+  const links = getLinks(location.pathname);
+
+  links.forEach((link) => {
+    const linkElementDesktop = document.createElement('a');
+    linkElementDesktop.href = link.to;
+    linkElementDesktop.className =
+      'text-sm font-medium text-gray-700 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-indigo-400 transition-colors';
+    linkElementDesktop.innerHTML = link.name;
+    document.querySelector('#action-container')?.appendChild(linkElementDesktop);
+
+    const linkElementMobile = document.createElement('a');
+    linkElementMobile.href = link.to;
+    linkElementMobile.className =
+      'text-sm font-medium text-gray-700 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-indigo-400 transition-colors';
+    linkElementMobile.innerHTML = link.name;
+    sidebar.querySelector('nav').appendChild(linkElementMobile);
+  });
+
+  buttons.forEach((button) => {
+    const className =
+      'w-full text-left px-4 py-2 text-base font-medium text-gray-900 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer transition-colors';
+
+    const desktopBtn = document.createElement('button');
+    desktopBtn.textContent = button.name;
+    desktopBtn.className = className;
+    desktopBtn.addEventListener('click', button.handler);
+    document.querySelector('#action-container').appendChild(desktopBtn);
+
+    const mobileBtn = document.createElement('button');
+    mobileBtn.textContent = button.name;
+    mobileBtn.className = className;
+    mobileBtn.addEventListener('click', button.handler);
+    sidebar.querySelector('nav').appendChild(mobileBtn);
+  });
+
+  const openSidebar = () => {
+    sidebarContainer.classList.remove('hidden');
+    requestAnimationFrame(() => {
+      backdrop.classList.remove('opacity-0');
+      backdrop.classList.add('opacity-100');
+      sidebar.classList.remove('translate-x-full');
+      sidebar.classList.add('translate-x-0');
+    });
+  };
+
+  const closeSidebar = () => {
+    backdrop.classList.remove('opacity-100');
+    backdrop.classList.add('opacity-0');
+    sidebar.classList.remove('translate-x-0');
+    sidebar.classList.add('translate-x-full');
+
+    setTimeout(() => {
+      sidebarContainer.classList.add('hidden');
+    }, 300);
+  };
+
+  openBtn.addEventListener('click', openSidebar);
+  closeBtn.addEventListener('click', closeSidebar);
+  backdrop.addEventListener('click', closeSidebar);
+</script>

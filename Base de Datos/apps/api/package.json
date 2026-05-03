@@ -1,0 +1,37 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "Backend para contactos",
+  "license": "ISC",
+  "author": "Gabriel Garcia",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "NODE_ENV=production node index.js",
+    "dev": "node --env-file=.env --watch index.js",
+    "tables:create:dev": "cross-env NODE_ENV=development node --env-file=.env ./db/tables",
+    "tables:create:prod": "cross-env NODE_ENV=production node --env-file=.env ./db/tables",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "better-sqlite3": "^12.6.2",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "nodemailer": "^8.0.1",
+    "pg": "^8.20.0",
+    "vitest": "^4.0.18",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "cross-env": "^10.1.0",
+    "eslint": "^10.0.0",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.3.0",
+    "prettier": "3.8.1",
+    "supertest": "^7.2.2"
+  }
+}

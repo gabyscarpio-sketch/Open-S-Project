@@ -1,0 +1,38 @@
+---
+import PageLayout from '../../layout/PageLayout.astro';
+export const prerender = false;
+---
+
+<PageLayout title="Verification">
+  <div class="h-screen flex justify-center items-center">
+    <div class="border p-4 rounded-xl">
+      <p id="info-text" class="font-bold">Verificando el correo <span id="info-dot">...</span></p>
+    </div>
+  </div>
+</PageLayout>
+
+<script>
+  import ky, { HTTPError } from 'ky';
+
+  const token = window.location.pathname.split('/verify/')[1];
+  const infoDotElement = document.querySelector('#info-dot');
+  setInterval(() => {
+    const dotText = infoDotElement.innerHTML;
+    if (dotText.length < 3) {
+      infoDotElement.innerHTML = infoDotElement.innerHTML + '.';
+    } else {
+      infoDotElement.innerHTML = '.';
+    }
+  }, 500);
+
+  (async () => {
+    try {
+      await ky.patch(`/api/auth/verify/`, { json: { token } }).json();
+      location.assign('/login');
+    } catch (error) {
+      if (error instanceof HTTPError) {
+        console.log(error.data.error);
+      }
+    }
+  })();
+</script>

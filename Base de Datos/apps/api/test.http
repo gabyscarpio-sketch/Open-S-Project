@@ -1,0 +1,42 @@
+# Crear usuario
+POST http://localhost:3000/api/user
+Content-Type: application/json
+{
+    "email": "email@gmail.com",
+    "password": "Hola123."
+}
+
+# Logear usuario
+POST http://localhost:3000/api/auth
+Content-Type: application/json
+{
+    "email": "email@gmail.com",
+    "password": "Hola123."
+}
+
+# Crear contacto
+POST http://localhost:3000/api/contact
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJlbWFpbEBnbWFpbC5jb20iLCJpYXQiOjE3NzMyMzkyOTgsImV4cCI6MTc3MzI0MTA5OH0.M6u-bIBr-L0OzZ0QyVCwngudZCAncJJD__F7GyiVJZU
+{
+    "name": "Gabriel Garcia",
+    "phone": "04122110101"
+}
+
+# Obtener contactos
+GET http://localhost:3000/api/contact
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJlbWFpbEBnbWFpbC5jb20iLCJpYXQiOjE3NzMyMzkyOTgsImV4cCI6MTc3MzI0MTA5OH0.M6u-bIBr-L0OzZ0QyVCwngudZCAncJJD__F7GyiVJZU
+# Actualizar contacto
+PUT http://localhost:3000/api/contact/4
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJlbWFpbEBnbWFpbC5jb20iLCJpYXQiOjE3NzMyMzkyOTgsImV4cCI6MTc3MzI0MTA5OH0.M6u-bIBr-L0OzZ0QyVCwngudZCAncJJD__F7GyiVJZU
+{
+    "name": "Alejandro Garcia",
+    "phone": "04149098899"
+}
+
+# Eliminar contacto
+DELETE http://localhost:3000/api/contact/4
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJlbWFpbEBnbWFpbC5jb20iLCJpYXQiOjE3NzMyMzkyOTgsImV4cCI6MTc3MzI0MTA5OH0.M6u-bIBr-L0OzZ0QyVCwngudZCAncJJD__F7GyiVJZU
